@@ -59,7 +59,7 @@ void setup() {
     pinMode(output1Pin, OUTPUT);
     pinMode(output2Pin, OUTPUT);
     pinMode(output3Pin, OUTPUT);
-    digitalWrite(output1Pin, HIGH);
+    digitalWrite(output1Pin, LOW);
     digitalWrite(output2Pin, HIGH);
     digitalWrite(output3Pin, HIGH);
 
@@ -115,19 +115,19 @@ void loop() {
   // read the input on analog pin 0:
   int sensorValue = analogRead(A0);
   // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
-  float voltage = sensorValue * (5.0 / 1023.0) * 3.19;
+  float voltage = sensorValue * (5.0 / 1023.0) * 3.22;
   // print out the value you read:
   Serial.printf("\r\nvoltage: %f,",voltage);
 
   switch(solarState){
     case 0:
-        if(voltage > 14.2){
+        if(voltage > 14.1){
           solarState = 1;
-          digitalWrite(output1Pin, LOW);
+          digitalWrite(output1Pin, HIGH);
           lowVolCount = 0;
-        }else if(voltage < 11.8){
+        }else if(voltage < 11.9){
           solarState = 2;
-          digitalWrite(output1Pin, LOW);
+          digitalWrite(output1Pin, HIGH);
           lowVolCount = 0;
         }
         break;
@@ -136,14 +136,14 @@ void loop() {
           lowVolCount = 0;
         }else if(voltage < 12.1){//disconnect immediately
           solarState = 0;
-          digitalWrite(output1Pin, HIGH);
+          digitalWrite(output1Pin, LOW);
           lowVolCount = 0;
         }else{//12.1~13.6
           int chargeSeconds = 0;
           chargeSeconds = (int)(30-(13.6-voltage)*20);
           if(lowVolCount++ > chargeSeconds){
             solarState = 0;
-            digitalWrite(output1Pin, HIGH);
+            digitalWrite(output1Pin, LOW);
             lowVolCount = 0;
           }
         }
@@ -153,14 +153,14 @@ void loop() {
           lowVolCount = 0;
         }else if(voltage > 13.6){//disconnect immediately
           solarState = 0;
-          digitalWrite(output1Pin, HIGH);
+          digitalWrite(output1Pin, LOW);
           lowVolCount = 0;
         }else{//12.1~13.6
           int chargeSeconds = 0;
           chargeSeconds = (int)((13.6-voltage)*20-0);
           if(lowVolCount++ > chargeSeconds){
             solarState = 0;
-            digitalWrite(output1Pin, HIGH);
+            digitalWrite(output1Pin, LOW);
             lowVolCount = 0;
           }
         }

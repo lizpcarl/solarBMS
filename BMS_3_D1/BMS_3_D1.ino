@@ -121,17 +121,17 @@ void loop() {
   // read the input on analog pin 0:
   int sensorValue = analogRead(A0);
   // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
-  float voltage = sensorValue * (5.0 / 1023.0) * 3.11;
+  float voltage = sensorValue * (5.0 / 1023.0) * 3.15;
   // print out the value you read:
   Serial.printf("\r\nvoltage: %f,",voltage);
 
   switch(solarState){
     case 0:
-        if(voltage > 14.2){
+        if(voltage > 14.1){
           solarState = 1;
           pin1Enable();
           lowVolCount = 0;
-        }else if(voltage < 11.8){
+        }else if(voltage < 11.9){
           solarState = 2;
           pin1Enable();
           lowVolCount = 0;
